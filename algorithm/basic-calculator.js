@@ -3,22 +3,31 @@
  * @return {number}
  */
 var calculate = function(s) {
+    // 定义一个符号栈
     const sign = [1]
+    // 定义sum用于保存计算结果，op为当前的运算符，n用于将string类型的数字转化成number类型
     let sum = 0, op = 1, n = 0
     for (let i = 0; i < s.length; i++) {
+        // 如果遇到' '，直接跳过
         if (s[i] === ' ') continue
+        // 如果遇到数字，将string转成number
         if (s[i] - '0' >= 0 && s[i] - '0' <= 9) {
             n = n * 10 + s[i] * 1
             continue
         }
+        // 当遇到数字和空格以外的符号，当前数字参与计算
         sum += op * n
         n = 0
-
+        // 如果遇到'-'，符号位为栈顶取反
         if (s[i] === '-') op = -sign[sign.length - 1]
+        // 如果遇到'+', 符号位为栈顶值
         if (s[i] === '+') op = sign[sign.length - 1]
+        // 如果遇到'('，将当前的符号位压入栈顶
         if (s[i] === '(') sign.push(op)
+        // 如果遇到')'，弹出栈顶的符号位
         if (s[i] === ')') sign.pop()
     }
+    // 将最后一个值参与运算 
     sum += op * n
     return sum
 };
