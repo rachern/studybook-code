@@ -39,3 +39,43 @@
     p.next = h2
     return h1
 };
+
+
+/**
+ * @desc 归并排序
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+ var sortList = function(head) {
+    let n = 0
+    let p = head
+    while (p) {
+        p = p.next
+        n++
+    }
+    return mergeSort(head, n)
+};
+
+var mergeSort = function (head, n) {
+    if (!head || !head.next) return head
+    let mid = Math.floor(n / 2)
+    let p = head, lp = head, rp
+    for (let i = 1; i < mid; i++) p = p.next
+    rp = p.next
+    p.next = null
+    lp = mergeSort(lp, mid)
+    rp = mergeSort(rp, n - mid)
+    const newHead = new ListNode()
+    p = newHead
+    while (lp || rp) {
+        if (rp === null || (lp && lp.val < rp.val)) {
+            p.next = lp
+            lp = lp.next
+        } else {
+            p.next = rp
+            rp = rp.next
+        }
+        p = p.next
+    }
+    return newHead.next
+}
